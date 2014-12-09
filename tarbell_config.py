@@ -3,6 +3,52 @@
 """
 Tarbell project configuration
 """
+import datetime
+from dateutil.parser import parse as date_parse
+from flask import Blueprint
+
+from metalsmyth import Stack
+from metalsmyth.plugins.dates import Dates
+from metalsmyth.plugins.markup import Markdown
+
+# blueprint
+blueprint = Blueprint('bwt', __name__)
+
+# stack setup
+stack = Stack('_posts', '_site', 
+    Dates('date'), 
+    Markdown(output_mode='html5')
+)
+
+@blueprint.app_context_processor
+def add_stack():
+    stack.run()
+    return {'posts': stack.serialize()}
+
+
+@blueprint.app_template_filter('date')
+def date_format(s, format=None):
+    "Parse and format date string or Excel serial date"
+
+    # handle Excel serial dates
+    if isinstance(s, (int, float)):
+        tt = xlrd.xldate_as_tuple(s, 0) # 1900-based
+        date = datetime.datetime(*tt)
+
+    # handle strings of various kinds
+    elif isinstance(s, basestring):
+        date = date_parse(s)
+
+    # if it's already a date, just move on
+    elif isinstance(s, (datetime.datetime, datetime.date)):
+        date = s
+    
+    # format if we have a format
+    if format is not None:
+        return date.strftime(format)
+    
+    return date
+
 
 # Google spreadsheet key
 SPREADSHEET_KEY = "1hmwdXii05aNvPKRIfI2LXQr0HvUphcFz2zJNRoCC2-E"
@@ -33,8 +79,8 @@ S3_BUCKETS = {
     #     "mytarget": "mys3url.bucket.url/some/path"
     # then use tarbell publish mytarget to publish to it
     
-    "production": "apps.frontline.org/built-with-tarbell",
-    "staging": "frontline-apps/built-with-tarbell",
+    #"production": "",
+    #"staging": "",
 }
 
 # Default template variables
