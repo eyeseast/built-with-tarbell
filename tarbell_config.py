@@ -22,8 +22,11 @@ stack = Stack('_posts', '_site',
 
 @blueprint.app_context_processor
 def add_stack():
-    stack.run()
-    return {'posts': stack.serialize()}
+    """
+    Add posts to context, sorted by filename.
+    For better sorting, use `sort` filter.
+    """
+    return {'posts': stack.iter()}
 
 
 @blueprint.app_template_filter('date')
