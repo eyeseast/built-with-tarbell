@@ -10,8 +10,8 @@ Quickstart
 Assuming you're using [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/):
 
     $ mkvirtualenv builtwithtarbell && cdvirtualenv
-    $ tarbell install <repo>
-    $ cd <repo>
+    $ tarbell install https://github.com/eyeseast/built-with-tarbell
+    $ cd built-with-tarbell
     $ pip install -r requirements.txt
     $ tarbell serve
 
@@ -36,7 +36,11 @@ Posts are written in Markdown using YAML Frontmatter. Here's a complete example:
     credit: Smart Chicago Collaborative
     ---
 
-    Crime and Punishment in Chicago is an index of data sources surrounding this criminal justice system as it is in Chicago. We track data sources from the commission of the crime all the way to prison. We aggregate sources of data, provide insight into how this data is generated, discuss how to get it, and expose what data is unavailable.
+    Crime and Punishment in Chicago is an index of data sources surrounding this 
+    criminal justice system as it is in Chicago. We track data sources from the 
+    commission of the crime all the way to prison. We aggregate sources of data, 
+    provide insight into how this data is generated, discuss how to get it, and 
+    expose what data is unavailable.
 
 The only required fields are `title`, `date` and `link`. If the project doesn't have an obvious publish date, just use the date you're adding the project here.
 
